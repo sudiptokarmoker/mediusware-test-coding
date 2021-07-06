@@ -137,13 +137,16 @@ var varientLists = [];
     });
 
     function add_another_option() {
+
         let option_lists = '';
         $.each(varientLists, function( index, value ) {
             option_lists += '<option>' + value['title'] + '</option>';
         });
         //console.log(option_lists);
         var = '<div class="row varient-1"><div class="col-md-4"><div class="form-group"><label for="">Option</label><select class="form-control" name="lstVarient"></select></div></div><div class="col-md-8"><div class="form-group"><label class="float-right text-primary" style="cursor: pointer" onclick="javascript:remove_varient_options('varient-1')">Remove</label><input type="text" class="form-control" /></div></div></div>';
+        
     }
+
 
     function remove_varient_options(remove_class_identity) {
         $('.' + remove_class_identity).remove();
