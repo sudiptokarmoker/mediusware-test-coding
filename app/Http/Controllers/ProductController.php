@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\ProductVariant;
-use App\Models\ProductVariantPrice;
 use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -39,10 +38,42 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        return response()->json([
+            'data' => $request->product_variant_prices
+        ]);
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'sku' => 'required|max:255',
+            'description' => 'max:65535',
+            //'product_image' => 'mimes:jpeg,png,jpg,gif|max:6144',
+        ]);
+        /**
+         * if fails on validation
+         */
+        if ($validator->fails()) {
+            return self::return_response('validation error', false, ['error' => $validator->errors()->all()], 0, 400);
+        }
+        try {
+            /**
+             * Now create product
+             */
+            $productInsertState = Product::create([
+                'title' => $request->title,
+                'sku' => $request->sku,
+                'description' => $request->description,
+            ]);
+            /**
+             * store varient request value
+             */
 
+            /**
+             * send response
+             */
+            return self::return_response('created product successfully', true, [$productInsertState], 1, 200);
+        } catch (\Exception $e) {
+            return self::return_response('Exception occoured', false, ['error' => $e->getMessage()], 0, 417);
+        }
     }
-
-
     /**
      * Display the specified resource.
      *

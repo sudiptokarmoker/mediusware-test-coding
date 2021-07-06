@@ -1,0 +1,80 @@
+.login-form-head {
+    background-color: #000000;
+    border-radius: 5px;
+}
+
+.role_group_grid_box {
+    width: 160px;
+    float: left;
+}
+
+.role_group_header {
+    width: 100%;
+    float: left;
+    margin: 20px 0 10px 0;
+}
+
+.role_group_header_body {
+    width: 100%;
+    float: left;
+    margin-top: 20px;
+}
+
+.role_group_header h5 {
+    text-transform: capitalize;
+}
+
+.select-all-label {
+    font-size: 16px;
+    font-weight: bold;
+    color: skyblue;
+}
+
+.form-submit-footer {
+    width: 100%;
+    float: left;
+}
+
+.permission-name-list-label {
+    text-transform: capitalize;
+    white-space: normal !important;
+}
+
+.save-button-form-v1 {
+    width: 100%;
+    float: left;
+    text-align: left;
+}
+
+.fl-r {
+    float: right;
+}
+
+.tab-content .fade {
+    opacity: initial !important;
+}
+
+.badge {
+    color: #000000;
+    font-size: 13px;
+}
+
+.ow {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
+.role_group_grid_box {
+    margin: 0px 5px;
+    padding: 0px 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-check input[type="checkbox"]+label {
+    width: 100%;
+}
+.main-dashboard-inner-content nav{margin-bottom: 10px;}
+.status-options-lists{width: auto !important;}
+
