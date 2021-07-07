@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ProductVariant extends Model
 {
@@ -12,4 +13,8 @@ class ProductVariant extends Model
         'variant_id',
         'product_id'
     ];
+
+    public static function returnProductVariantData($product_id){
+        //$query = DB::table('product_variants')
+    }
 }
