@@ -16,15 +16,15 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="">Product Name</label>
-                                <input type="text" placeholder="Product Name" class="form-control" />
+                                <input type="text" placeholder="Product Name" class="form-control" name="title" required/>
                             </div>
                             <div class="form-group">
                                 <label for="">Product SKU</label>
-                                <input type="text" placeholder="Product Name" class="form-control" />
+                                <input type="text" placeholder="Product Name" class="form-control" name="sku" required/>
                             </div>
                             <div class="form-group">
                                 <label for="">Description</label>
-                                <textarea id="" cols="30" rows="4" class="form-control"></textarea>
+                                <textarea id="" cols="30" rows="4" class="form-control" name="description" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -57,14 +57,14 @@
                                 Variants
                             </h6>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body varient-lists-card-box">
                             <!-- variend lists start -->
-                            <div class="varient-lists">
+                            <div class="varient-lists varient-lists-1">
                                 <div class="row varient-1">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="">Option</label>
-                                            <select class="form-control" name="lstVarient">
+                                            <select class="form-control" name="variant[]">
                                                 @foreach($variants as $variant)
                                                 <option value="{{ $variant->id }}">{{ $variant->title }}</option>
                                                 @endforeach
@@ -73,8 +73,8 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
-                                            <label class="float-right text-primary" style="cursor: pointer" onclick="javascript:remove_varient_options('varient-1')">Remove</label>
-                                            <input type="text" class="form-control" />
+                                            <label class="float-right text-primary" style="cursor: pointer" onclick="javascript:remove_varient_options('varient-lists-1')">Remove</label>
+                                            <input type="text" class="form-control" name="varient_price[]" required/>
                                         </div>
                                     </div>
                                 </div>
@@ -131,20 +131,50 @@ var varientLists = [];
         varientLists.push( <?php echo $value; ?> );
         @endforeach
         $("#product-create-form").submit(function(event) {
-            alert("Handler for .submit() called.");
             event.preventDefault();
+
+            let title = $("input[name=title]").val();
+            let sku = $("input[name=sku]").val();
+            let description = $("textarea[name=description]").val();
+
+            let _token   = $('meta[name="csrf-token"]').attr('content');
+            let variant_lists_data = {};
+            $.each($('.varient-lists'), function(index, value){
+                variant_lists_data[index] = {
+                    'varient_id' : $(this).find('select[name="variant[]"] option:selected').val(),
+                    'varient_options_value' : $(this).find('input[name="varient_price[]"]').val()
+                };
+            });
+
+            $.ajax({
+                url: "http://127.0.0.1:8000/product",
+                type:"POST",
+                dataType: "json",
+                data:{
+                    title:title,
+                    sku:sku,
+                    description:description,
+                    variant_lists_data:variant_lists_data,
+                    _token: _token
+                },
+                success:function(response){
+                if(response && response.isSuccess === true) {
+                    alert("product inserted successfully");
+                } else {
+                    alert("Error while create product");
+                }
+                },
+            });
         });
     });
 
     function add_another_option() {
-
-        let option_lists = '';
+        var option_lists = '', counter_html = $('.varient-lists').length;
         $.each(varientLists, function( index, value ) {
-            option_lists += '<option>' + value['title'] + '</option>';
+            option_lists += '<option value="'+value['id']+'">' + value['title'] + '</option>';
         });
-        //console.log(option_lists);
-        var = '<div class="row varient-1"><div class="col-md-4"><div class="form-group"><label for="">Option</label><select class="form-control" name="lstVarient"></select></div></div><div class="col-md-8"><div class="form-group"><label class="float-right text-primary" style="cursor: pointer" onclick="javascript:remove_varient_options('varient-1')">Remove</label><input type="text" class="form-control" /></div></div></div>';
-        
+        var appened_html = '<div class="varient-lists varient-lists-'+counter_html+'"><div class="row varient-'+counter_html+'"><div class="col-md-4"><div class="form-group"><label for="">Option</label><select class="form-control" name="variant[]">'+option_lists+'</select></div></div><div class="col-md-8"><div class="form-group"><label class="float-right text-primary" style="cursor: pointer" onclick=javascript:remove_varient_options("varient-lists-'+counter_html+'")>Remove</label><input type="text" class="form-control" name="varient_price[]" required/></div></div></div></div>';
+        $( ".varient-lists-card-box" ).append(appened_html);
     }
 
 

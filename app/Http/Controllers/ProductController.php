@@ -16,7 +16,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('products.index');
+        $product = Product::all();
+
+        //dd($product);
+        return view('products.index', compact('product'));
     }
 
     /**
@@ -38,9 +41,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        return response()->json([
-            'data' => $request->product_variant_prices
-        ]);
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:255',
             'sku' => 'required|max:255',
@@ -65,11 +65,19 @@ class ProductController extends Controller
             /**
              * store varient request value
              */
-
+            if(isset($request->variant_lists_data) && count($request->variant_lists_data) > 0){
+                foreach($request->variant_lists_data as $varient){
+                    \App\Models\ProductVariant::create([
+                        'variant' => $varient['varient_options_value'],
+                        'variant_id' => $varient['varient_id'],
+                        'product_id' => $productInsertState->id,
+                    ]);
+                }
+            }
             /**
              * send response
              */
-            return self::return_response('created product successfully', true, [$productInsertState], 1, 200);
+            return self::return_response('created product successfully', true, $productInsertState, 1, 200);
         } catch (\Exception $e) {
             return self::return_response('Exception occoured', false, ['error' => $e->getMessage()], 0, 417);
         }
