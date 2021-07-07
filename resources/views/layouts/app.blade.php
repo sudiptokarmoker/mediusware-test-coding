@@ -15,6 +15,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('backend/assets_v2/css/dataTables.css') }}" rel="stylesheet" type="text/css" />
     <!-- jQuery  -->
     <script src="{{ asset('backend/assets_v2/js/jquery-3.5.1.min.js') }}"></script>
     <!-- jQuery UI -->
@@ -155,5 +156,28 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+        <!-- dataTables js  -->
+    <script src="{{ asset('backend/assets_v2/js/dataTables.js') }}"></script>
+    <script src="{{ asset('backend/assets_v2/js/datatables.button.js') }}"></script>
+
+    <!-- Start datatable js -->
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    /*================================
+    datatable active
+    ==================================*/
+    if ($('#dataTable').length) {
+        $('#dataTable').DataTable({
+            responsive: true
+        });
+    }
+
+</script>
+
 </body>
 </html>

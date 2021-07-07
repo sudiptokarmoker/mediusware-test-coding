@@ -39,7 +39,7 @@
 
     <div class="card-body">
         <div class="table-response">
-            <table class="table">
+            <table class="table" id="dataTable">
                 <thead>
                     <tr>
                         <th>#</th>
